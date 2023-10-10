@@ -7,10 +7,16 @@ import unreal_engine as ue
 # TODO: there are invalid names like 'IsInAir?' and 'EUserInterfaceActionType.None'
 VALID_NAME_PATTERN = re.compile('^[_a-zA-Z][_a-zA-Z0-9]*$')
 FILTERED_NAMES = {
-    '__new__', '__doc__',
-    '__str__', '__repr__', '__name__',
-    '__loader__', '__spec__', '__package__',
-    '__loader__', '__hash__', '__weakref__'
+    '__new__',
+    '__doc__',
+    '__str__',
+    '__repr__',
+    '__name__',
+    '__spec__',
+    '__package__',
+    '__loader__',
+    '__hash__',
+    '__weakref__',
 }
 
 # This list is kinda reliable for descriptors implemented in C, it's ugly to get their types
@@ -50,7 +56,7 @@ def write_function(file, name, indent):
     file.write(indent)
     # TODO: ideally methods functions should be handled differently, like have self
     # but we don't know arguments and if it's staticmethod or classmethod anyway
-    file.write("def {}(*args, **kwargs) -> 'typing.Any': ...\n".format(name))
+    file.write(f"def {name}(*args, **kwargs) -> 'typing.Any': ...\n")
 
 
 def write_variable(file, name, value, indent):
@@ -60,25 +66,21 @@ def write_variable(file, name, value, indent):
     if isinstance(value, property) or value is None or type_name in DESCRIPTORS:
         variable_type = 'typing.Any'
     else:
-        variable_type = '{}'.format(type_name)
+        variable_type = f'{type_name}'
 
-    file.write(
-        "{}: '{}'\n".format(name, variable_type)
-    )
+    file.write(f"{name}: '{variable_type}'\n")
 
 
 def write_class(file, name, value, indent):
     file.write(indent)
-    file.write("class {}:\n".format(name))
-    attributes = filter_attributes(vars(value))
+    file.write(f"class {name}:\n")
+    if attributes := filter_attributes(vars(value)):
+        for attribute_name, attribute_value in attributes.items():
+            write_object(file, attribute_name, attribute_value, f'{indent}    ')
 
-    if not attributes:
+    else:
         file.write(indent)
         file.write("    pass\n")
-    else:
-        for attribute_name, attribute_value in attributes.items():
-            write_object(file, attribute_name, attribute_value, indent + '    ')
-
     file.write('\n')
     file.write('\n')
 
@@ -98,18 +100,18 @@ def write_object(file, name, value, indent):
 
 def write_ue_classes(file, classes):
     for class_ in classes:
-        file.write("class {}:\n".format(class_.get_name()))
+        file.write(f"class {class_.get_name()}:\n")
 
         attributes_count = 0
 
         for property_ in filter_names(class_.properties()):
             file.write("    ")
-            file.write("{}: 'typing.Any'\n".format(property_))
+            file.write(f"{property_}: 'typing.Any'\n")
             attributes_count += 1
 
         for function_ in filter_names(class_.functions()):
             file.write("    ")
-            file.write("def {}(*args, **kwargs) -> 'typing.Any': pass\n".format(function_))
+            file.write(f"def {function_}(*args, **kwargs) -> 'typing.Any': pass\n")
             attributes_count += 1
 
         if attributes_count == 0:

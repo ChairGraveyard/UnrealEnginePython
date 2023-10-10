@@ -6,7 +6,7 @@ from unreal_engine.enums import EPinContainerType
 
 import time
 
-bp = ue.create_blueprint(Actor, '/Game/FooActor' + str(int(time.time())))
+bp = ue.create_blueprint(Actor, f'/Game/FooActor{int(time.time())}')
 
 pin = EdGraphPinType(PinCategory='object', PinSubCategoryObject=Material)
 ue.blueprint_add_member_variable(bp, 'TestMat', pin, None, '/Engine/MapTemplates/Materials/BasicAsset03.BasicAsset03')

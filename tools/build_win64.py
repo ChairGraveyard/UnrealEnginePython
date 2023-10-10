@@ -6,7 +6,7 @@ import time
 
 def msbuild(project, python_version):
     base_environ = os.environ
-    base_environ.update({'PYTHONHOME': python_version})
+    base_environ['PYTHONHOME'] = python_version
     vs = '"C:/Program Files (x86)/MSBuild/14.0/Bin/MSBuild.exe"'
     process = subprocess.Popen('{0} {1} /t:Rebuild /p:Configuration="Development Editor" /p:Platform=Win64'.format(vs, project), env=base_environ)
     while process.poll() is None:

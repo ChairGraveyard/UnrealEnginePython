@@ -9,13 +9,13 @@ group_actor = world.actor_spawn(GroupActor)
 for folder in world.world_folders():
     print(folder)
 
-new_folder = 'FooBar_{}'.format(int(time.time()))
+new_folder = f'FooBar_{int(time.time())}'
 
 world.world_create_folder(new_folder)
 
-world.world_rename_folder(new_folder, new_folder + '__hello')
+world.world_rename_folder(new_folder, f'{new_folder}__hello')
 
-world.world_delete_folder(new_folder + '__hello')
+world.world_delete_folder(f'{new_folder}__hello')
 
 actor = ue.editor_get_selected_actors()[0]
 

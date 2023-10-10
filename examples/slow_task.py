@@ -12,11 +12,11 @@ t.make_dialog(True)
 
 time.sleep(1)
 
-for i in range(10) :
+for i in range(10):
     # Update the progress bar. Note that the first argument is the
     # amount of work to be done this frame, not the overall work
     # done so far.
-    t.enter_progress_frame(1, "Progress Position : {}".format(i))
+    t.enter_progress_frame(1, f"Progress Position : {i}")
     time.sleep(0.2)
 
     # If there was a cancel button included, we can check if it was

@@ -11,11 +11,11 @@ class TestActor(unittest.TestCase):
     	self.world = ue.get_editor_world()
 
     def test_spawn(self):
-    	new_actor = self.world.actor_spawn(Actor)
-    	actor_label = 'ActorTest_' + str(int(time.time()))
-    	new_actor.set_actor_label(actor_label)
-    	found_actor = self.world.find_actor_by_label(actor_label)
-    	self.assertEqual(found_actor, new_actor)
+        new_actor = self.world.actor_spawn(Actor)
+        actor_label = f'ActorTest_{int(time.time())}'
+        new_actor.set_actor_label(actor_label)
+        found_actor = self.world.find_actor_by_label(actor_label)
+        self.assertEqual(found_actor, new_actor)
 
     def test_location(self):
     	new_actor = self.world.actor_spawn(Character, FVector(100, 200, 300))
@@ -35,14 +35,14 @@ class TestActor(unittest.TestCase):
     	self.assertFalse(new_actor2.is_a(Character))
 
     def test_destroy(self):
-    	new_actor = self.world.actor_spawn(Actor)
-    	actor_label = 'ActorDestroyTest_' + str(int(time.time()))
-    	new_actor.set_actor_label(actor_label)
-    	found_actor = self.world.find_actor_by_label(actor_label)
-    	self.assertEqual(found_actor, new_actor)
-    	new_actor.actor_destroy()
-    	found_actor = self.world.find_actor_by_label(actor_label)
-    	self.assertIsNone(found_actor)
+        new_actor = self.world.actor_spawn(Actor)
+        actor_label = f'ActorDestroyTest_{int(time.time())}'
+        new_actor.set_actor_label(actor_label)
+        found_actor = self.world.find_actor_by_label(actor_label)
+        self.assertEqual(found_actor, new_actor)
+        new_actor.actor_destroy()
+        found_actor = self.world.find_actor_by_label(actor_label)
+        self.assertIsNone(found_actor)
 
     def test_has_component(self):
     	new_actor = self.world.actor_spawn(Character, FVector(100, 200, 300))

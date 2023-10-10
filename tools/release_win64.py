@@ -21,9 +21,9 @@ def zipdir(path, zh, base):
 
 def msbuild(project, python_version):
     base_environ = os.environ
-    base_environ.update({'PYTHONHOME': python_version})
-    base_environ.update({'UEP_ENABLE_UNITY_BUILD': '1'})
-    vs = '"{}"'.format(MSBUILD)
+    base_environ['PYTHONHOME'] = python_version
+    base_environ['UEP_ENABLE_UNITY_BUILD'] = '1'
+    vs = f'"{MSBUILD}"'
     process = subprocess.Popen('{0} "{1}" /m /t:Rebuild /p:Configuration="Development Editor" /p:Platform=Win64'.format(vs, project), env=base_environ)
     while process.poll() is None:
         time.sleep(0.5)

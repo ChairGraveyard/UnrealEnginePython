@@ -16,11 +16,9 @@ sm = StaticMesh()
 # prepare a new LOD for the StaticMesh
 source_model = StaticMeshSourceModel(BuildSettings=MeshBuildSettings(bRecomputeNormals=True, bRecomputeTangents=True, bUseMikkTSpace=False, bBuildAdjacencyBuffer=True,bRemoveDegenerates=True))
 
-# open a nif file
-stream = open('C:/Users/Roberto/Downloads/test_dump_tex.nif', 'rb')
-data = NifFormat.Data()
-data.read(stream)
-stream.close()
+with open('C:/Users/Roberto/Downloads/test_dump_tex.nif', 'rb') as stream:
+    data = NifFormat.Data()
+    data.read(stream)
 
 # a custom class for storing vertex data
 class Vertex:

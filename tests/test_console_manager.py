@@ -31,7 +31,7 @@ class TestConsoleManager(unittest.TestCase):
 
     def test_variable_float_register(self):
         IConsoleManager.register_variable_float('uep_test_001', 'test help string 001', 17.22)
-        self.assertTrue((17.22 - IConsoleManager.get_float('uep_test_001')) < 0.1)
+        self.assertTrue(IConsoleManager.get_float('uep_test_001') > 17.119999999999997)
         self.assertEqual(IConsoleManager.get_help('uep_test_001'), 'test help string 001')
 
 if __name__ == '__main__':

@@ -5,7 +5,7 @@ import time
 
 # create new blueprint from factory
 bpFactory = BlueprintFactory()
-bp = bpFactory.factory_create_new('/Game/test' + str(int(time.time())))
+bp = bpFactory.factory_create_new(f'/Game/test{int(time.time())}')
 
 # add intensity variable
 intensity = ue.blueprint_add_member_variable(bp, 'intensity', 'float')

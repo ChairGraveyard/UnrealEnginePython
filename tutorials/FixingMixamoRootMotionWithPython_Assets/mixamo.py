@@ -12,7 +12,11 @@ class RootMotionFixer:
    
     def add_root_to_skeleton(self, mesh, bone='root'):
         base_path = mesh.get_path_name()
-        new_path = ue.create_modal_save_asset_dialog('Choose destination path', ue.get_path(base_path), ue.get_base_filename(base_path) + '_rooted')
+        new_path = ue.create_modal_save_asset_dialog(
+            'Choose destination path',
+            ue.get_path(base_path),
+            f'{ue.get_base_filename(base_path)}_rooted',
+        )
         if not new_path:
             raise DialogException('Please specify a new path for the Skeletal Mesh copy')
         package_name = ue.object_path_to_package_name(new_path)
@@ -21,7 +25,9 @@ class RootMotionFixer:
         new_mesh = mesh.duplicate(package_name, object_name, True)
 
         # generate a new skeleton
-        new_skel = self.build_new_skeleton(mesh.Skeleton, object_name + '_Skeleton', bone)
+        new_skel = self.build_new_skeleton(
+            mesh.Skeleton, f'{object_name}_Skeleton', bone
+        )
         # save the new skeleton in the same package directory of the new skeletal mesh
         new_skel.save_package(package_name)
 
@@ -112,12 +118,12 @@ class RootMotionFixer:
 
         factory = AnimSequenceFactory()
         factory.TargetSkeleton = self.choosen_skeleton
-        
+
         base_path = animation.get_path_name()
         package_name = ue.get_path(base_path)
         object_name = ue.get_base_filename(base_path)
 
-        new_anim = factory.factory_create_new(package_name + '/' + object_name + '_rooted')
+        new_anim = factory.factory_create_new(f'{package_name}/{object_name}_rooted')
 
         new_anim.NumFrames = animation.NumFrames
         new_anim.SequenceLength = animation.SequenceLength
@@ -135,13 +141,13 @@ class RootMotionFixer:
                 root_data.pos_keys = root_motion
                 # ensure empty rotations !
                 root_data.rot_keys = [FQuat()]
-        
+
                 # add  the track
                 new_anim.add_new_raw_track('root', root_data)
                 break
         else:
             raise DialogException('Unable to find bone {0}'.format(bone))
-           
+
         # now append the original tracks, but removes the position keys
         # from the original root bone
         for index, name in enumerate(animation.AnimationTrackNames):
@@ -149,10 +155,7 @@ class RootMotionFixer:
             if name == bone:
                 # remove root motion from original track
                 data.pos_keys = [data.pos_keys[0]]
-                new_anim.add_new_raw_track(name, data)
-            else:
-                new_anim.add_new_raw_track(name, data)
-
+            new_anim.add_new_raw_track(name, data)
         new_anim.save_package()
 
 

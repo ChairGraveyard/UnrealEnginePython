@@ -55,9 +55,13 @@ class FbxCurvesExtractor:
                     curve = curve_node.get_curve(chan_num, 0)
                     if not curve:
                         continue
-                    keys = []
-                    for key_id in range(0, curve.key_get_count()):
-                        keys.append((curve.key_get_seconds(key_id), curve.key_get_value(key_id)))
+                    keys = [
+                        (
+                            curve.key_get_seconds(key_id),
+                            curve.key_get_value(key_id),
+                        )
+                        for key_id in range(0, curve.key_get_count())
+                    ]
                     channels.append({'name': curve_node.get_channel_name(chan_num), 'keys': keys})
                 curves.append({'object': obj.get_name(), 'class': obj.get_class_name(), 'property': prop.get_name(), 'channels': channels})
         return curves

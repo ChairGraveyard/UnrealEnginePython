@@ -5,13 +5,9 @@ import time
 
 factory = CurveFloatFactory()
 
-curve = factory.factory_create_new('/Game/CustomFloatCurve' + str(int(time.time())))
+curve = factory.factory_create_new(f'/Game/CustomFloatCurve{int(time.time())}')
 
-keys = []
-
-for i in range(0, 100):
-    keys.append(RichCurveKey(Time=i, Value=i))
-
+keys = [RichCurveKey(Time=i, Value=i) for i in range(0, 100)]
 curve.FloatCurve.Keys = keys
 
 curve.post_edit_change()
@@ -20,7 +16,9 @@ ue.open_editor_for_asset(curve)
 
 factory = CurveVectorFactory()
 
-curve = factory.factory_create_new('/Game/CustomVectorCurve' + str(int(time.time())))
+curve = factory.factory_create_new(
+    f'/Game/CustomVectorCurve{int(time.time())}'
+)
 
 # one curve list for each axis
 keys_x = []

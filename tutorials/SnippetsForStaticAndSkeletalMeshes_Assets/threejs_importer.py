@@ -81,16 +81,11 @@ class ThreeJSLoader:
             index += 1
             points = 3
             v0 = v1 = v2 = v3 = None
-            if face & 1 == 0:
-                # triangle
-                v0, v0_index = self.build_soft_vertex(index)
-                v1, v1_index = self.build_soft_vertex(index + 1)
-                v2, v2_index = self.build_soft_vertex(index + 2)
-            else:
-                # quad
-                v0, v0_index = self.build_soft_vertex(index)
-                v1, v1_index = self.build_soft_vertex(index + 1)
-                v2, v2_index = self.build_soft_vertex(index + 2)
+            # triangle
+            v0, v0_index = self.build_soft_vertex(index)
+            v1, v1_index = self.build_soft_vertex(index + 1)
+            v2, v2_index = self.build_soft_vertex(index + 2)
+            if face & 1 != 0:
                 v3, v3_index = self.build_soft_vertex(index + 3)
 
             if v3:
@@ -130,8 +125,6 @@ class ThreeJSLoader:
                 self.vertex_map.append(v2_index)
                 self.vertices.append(v0)
                 self.vertex_map.append(v0_index)
-                self.vertices.append(v1)
-                self.vertex_map.append(v1_index)
             else:
                 # we have a quad, generate two triangles
                 # we need to fix winding, from OpenGL (counterwise) to UE4 (clockwise)
@@ -146,9 +139,8 @@ class ThreeJSLoader:
                 self.vertex_map.append(v2_index)
                 self.vertices.append(v3)
                 self.vertex_map.append(v3_index)
-                self.vertices.append(v1)
-                self.vertex_map.append(v1_index)
-
+            self.vertices.append(v1)
+            self.vertex_map.append(v1_index)
         pkg = ue.get_or_create_package(pkg_name)
         sm = SkeletalMesh(obj_name, pkg)
         sm.skeletal_mesh_set_skeleton(self.skeleton)

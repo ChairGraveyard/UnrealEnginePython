@@ -6,12 +6,10 @@ from unreal_engine.enums import EPixelFormat
 _filter = FARFilter()
 _filter.class_names = ['StaticMesh']
 
-thumbnails = []
-
-for static_mesh in ue.get_assets_by_filter(_filter):
-    thumbnails.append((static_mesh.get_full_name(), static_mesh.get_thumbnail()))
-
-
+thumbnails = [
+    (static_mesh.get_full_name(), static_mesh.get_thumbnail())
+    for static_mesh in ue.get_assets_by_filter(_filter)
+]
 window = SWindow(client_size=(1024, 512), title='StaticMeshes thumbnails')
 scroll_box = SScrollBox()
 

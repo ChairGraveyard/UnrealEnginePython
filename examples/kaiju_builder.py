@@ -38,11 +38,11 @@ imported_textures = []
 for texture in kaiju_textures:
     imported_texture = texture_factory.factory_import_object(os.path.join(kaiju_source, texture), kaiju_destination)
     imported_textures.append(imported_texture)
-    
+
 
 mat = Material()
 #mat.set_name('kaiju_Material_' + str(time.time()))
-mat.save_package(kaiju_destination + '/kaiju_Material')
+mat.save_package(f'{kaiju_destination}/kaiju_Material')
 
 from unreal_engine.classes import MaterialExpressionTextureSample, Texture2D, MaterialExpressionConstant3Vector, MaterialExpressionSine, MaterialExpressionMultiply, MaterialExpressionTime, Skeleton, Character
 from unreal_engine.structs import ColorMaterialInput, ScalarMaterialInput, ExpressionInput, VectorMaterialInput, SingleAnimationPlayData
@@ -115,7 +115,7 @@ anim_factory.ImportUI.AnimSequenceImportData.ImportUniformScale = 0.1;
 
 animation = anim_factory.factory_import_object(os.path.join(kaiju_source, kaiju_animation), kaiju_destination)
 
-new_blueprint = ue.create_blueprint(Character, kaiju_destination + '/Kaiju_BP')
+new_blueprint = ue.create_blueprint(Character, f'{kaiju_destination}/Kaiju_BP')
 
 new_blueprint.GeneratedClass.get_cdo().Mesh.SkeletalMesh = mesh
 new_blueprint.GeneratedClass.get_cdo().Mesh.RelativeLocation = FVector(0, 0, -140)

@@ -12,15 +12,15 @@ class TestUObject(unittest.TestCase):
 
     def test_set_name(self):
         new_material = Material()
-        mat_name = 'MatTest_' + str(int(time.time()))
+        mat_name = f'MatTest_{int(time.time())}'
         new_material.set_name(mat_name)
         self.assertEqual(new_material.get_name(), mat_name)
 
     def test_save_package(self):
         new_material = Material()
-        mat_name = 'MatTestSaved_' + str(int(time.time()))
+        mat_name = f'MatTestSaved_{int(time.time())}'
         new_material.set_name(mat_name)
-        package_name = '/Game/Tests/MaterialsTest' + str(int(time.time()))
+        package_name = f'/Game/Tests/MaterialsTest{int(time.time())}'
         new_material.save_package(package_name)
         asset_name = '{0}.{1}'.format(package_name, mat_name)
         try:

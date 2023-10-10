@@ -36,7 +36,7 @@ class TestRandomStream(unittest.TestCase):
 
     def test_get_unit_vector(self):
         r = FRandomStream()
-        self.assertTrue((1.0 - r.get_unit_vector().length()) < 0.1)
+        self.assertTrue(r.get_unit_vector().length() > 0.9)
 
     def test_get_unsigned_int(self):
         r = FRandomStream()
@@ -74,8 +74,8 @@ class TestRandomStream(unittest.TestCase):
 
     def test_vrand(self):
         r = FRandomStream()
-        self.assertTrue((1.0 - r.vrand().length()) < 0.1)
+        self.assertTrue(r.vrand().length() > 0.9)
 
     def test_vrand_cone(self):
         r = FRandomStream()
-        self.assertTrue((1.0 - r.vrand_cone(FVector(0, 0, 1), 30, 22).length()) < 0.1)
+        self.assertTrue(r.vrand_cone(FVector(0, 0, 1), 30, 22).length() > 0.9)

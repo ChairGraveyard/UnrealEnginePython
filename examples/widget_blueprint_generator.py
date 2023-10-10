@@ -5,7 +5,9 @@ from unreal_engine.structs import AnchorData, Anchors, Vector2D, Margin
 
 import time
 
-widget = WidgetBlueprintFactory().factory_create_new( "/Game/W_MyWidgetBlueprint" + str(int(time.time())) )
+widget = WidgetBlueprintFactory().factory_create_new(
+    f"/Game/W_MyWidgetBlueprint{int(time.time())}"
+)
 
 widget.modify()
 
